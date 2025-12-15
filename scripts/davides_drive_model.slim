@@ -18,7 +18,7 @@ initialize()
 	// defineConstant("VARIANCE_SEED", 20);
 	// defineConstant("POPULATION_SIZE", 1000);
 	defineConstant("K", POPULATION_SIZE);
-	defineConstant("SAMPLE_INTERVAL", 0);
+	defineConstant("SAMPLE_INTERVAL", 20);
 	defineConstant("PRINT_TEST_INTERVAL", 1000);
 	// defineConstant("NR_AMPLICONS", 3);
 	//	defineConstant("DRIVE_S", 1); 
@@ -381,7 +381,11 @@ reproduction() {
 		'dev.off()',
 		'}', sep="\n");
 	scriptPath = writeTempFile("plot_", ".R", rstr);
-	system(RSCRIPT, args=scriptPath);
+        if (exists("slimgui")) {
+            system(RSCRIPT, args=scriptPath);
+        } else {
+            system("mv", args=c(scriptPath, OUTPUT_PREFIX + '.R'));
+        }
 	deleteFile(scriptPath);
 }
 
